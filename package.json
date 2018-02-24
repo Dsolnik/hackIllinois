@@ -10,11 +10,13 @@
     "test-watch": "nodemon --exec 'npm test'"
   },
   "dependencies": {
+    "atob": "^2.0.3",
     "body-parser": "^1.18.2",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "http": "0.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "twilio": "^3.11.3"
   },
   "devDependencies": {},
   "repository": {

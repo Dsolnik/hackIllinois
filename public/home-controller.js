@@ -15,6 +15,7 @@ myApp.controller('HomeCtrl', [
           interval = setInterval(function () {
             Webcam
               .snap(function (data_uri) {
+                console.log(data_uri)
                 $.ajax({
                   'url' : proxyurl + 'https://ekpqr3k4xi.execute-api.us-east-1.amazonaws.com/prod/myresource',
                   'type' : 'PUT',

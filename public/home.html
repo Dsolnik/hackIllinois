@@ -2,14 +2,13 @@
         <div class="panel-heading"></div>
         <div class="panel-body">
                 <div class="container" style="padding-top:100px;">
-                        <div id="my_camera" style="width:320px; height:240px;"></div>
+                        <center><div id="my_camera" style="width:320px; height:240px;"></div></center>
                         <div class="row">
                                 <div class="col col-md-2">
                                 </div>
                                 <div class="col col-md-8">
                                     <center>
-                                        <button id="start" type="button" class="btn btn-default" ng-click="status.open = !status.open">Start</button>
-                                        <toggle id="stop" ng-model="toggleValue" ng-change="changed()" on="Enabled" off="Disabled"></toggle>
+                                        <toggle id="start" ng-model="toggleValue" ng-change="changed()" on="Disabled" off="Enabled"></toggle>
                                     </center>
                                 </div>
                                 <div class="col col-md-2">

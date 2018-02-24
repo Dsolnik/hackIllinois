@@ -1,13 +1,13 @@
 myApp.controller('HomeCtrl', [
-    '$scope',
-    '$resource',
-    function($scope, $resource) {
-        $(document)
-        .ready(function () {
+  '$scope',
+  '$resource',
+  function ($scope, $resource) {
+    $(document)
+      .ready(function () {
+        let interval
+        startInterval = function startInterval() {
           Webcam.attach('#my_camera');
-          let interval
-      
-          startInterval = function startInterval() {
+          if ($scope.toggleValue) {
             if (!interval) {
               interval = setInterval(function () {
                 Webcam
@@ -16,21 +16,19 @@ myApp.controller('HomeCtrl', [
                   })
               }, 3000);
             }
-          }
-      
-          stopInterval = function stopInterval() {
+          } else {
+            Webcam.reset();
             if (interval) {
               clearInterval(interval);
               interval = null
             }
           }
-      
-          let start = jQuery('#start');
-          let stop = jQuery('#stop');
-          start.click(startInterval)
-          stop.click(stopInterval)
-        });
-        var me = this;
+        }
+        let start = jQuery('#start');
+        start.click(startInterval)
+        stop.click(startInterval)
+      });
+    var me = this;
 
-}
+  }
 ]);

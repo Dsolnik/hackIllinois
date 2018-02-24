@@ -37,7 +37,7 @@ app
   })
 
 app.post('/text', async (req, res) => {
-  const {image} = req.body;
+  const {image, number} = req.body;
 
   const hashedName = image.hashCode();
   const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
@@ -50,7 +50,7 @@ app.post('/text', async (req, res) => {
 
   client
     .messages
-    .create({to: `+13522157486`, from: '+13475072312', body: "There is an intruder!", mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`})
+    .create({to: `+1${number}`, from: '+13475072312', body: "There is an intruder!", mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`})
     .then((message) => console.log(message));
 
   res.end('cool!');

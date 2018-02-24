@@ -23,7 +23,13 @@ myApp.controller('HomeCtrl', [
                   'data' : JSON.stringify({data: data_uri}),
                 //The response from the server
                   'success' : function(res) {
-                    console.log(res);
+                    if (res == 'An intruder is in the home') {
+                      $.ajax({
+                        'url' : '/text',
+                        'type' : 'POST',
+                        'contentType' : "application/json",
+                        'data' : JSON.stringify({number: '516-404-8254', image: data_uri}),
+                          }
                   }
                 });
                 })

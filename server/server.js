@@ -51,7 +51,7 @@ app.post('/text', async (req, res) => {
     .create({to: '+15164048254', from: '+13475072312', body: "There is an intruder!", mediaUrl: req.headers.host + `/images/${hashedName.jpg}`})
     .then((message) => console.log(message));
 
-  res.send('cool!');
+  res.end();
 });
 
 app

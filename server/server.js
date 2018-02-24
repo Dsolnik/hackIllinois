@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const http = require('http');
+const socketIO = require('socket.io');
 
 const publicPath = path.join(__dirname, '../public');
 const PORT = process.env.PORT || 3000;
@@ -15,6 +16,7 @@ const client = require('twilio')(accountSid, authToken);
 
 const app = express();
 var server = http.createServer(app);
+const io = socketIO(server);
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
@@ -36,13 +38,13 @@ app
     res.send(req);
   })
 
-app.post('/text', async (req, res) => {
+app.post('/text', async(req, res) => {
   const {image, number} = req.body;
 
   const hashedName = image.hashCode();
   const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
-  await require("fs").writeFile(`./public/images/${hashedName}.jpeg`, base64Data, 'base64', function(err) {
+  await require("fs").writeFile(`./public/images/${hashedName}.jpeg`, base64Data, 'base64', function (err) {
     console.log(err);
   });
 
@@ -50,8 +52,14 @@ app.post('/text', async (req, res) => {
 
   client
     .messages
-    .create({to: `+1${number}`, from: '+13475072312', body: "There is an intruder!", mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`})
-    .then((message) => console.log(message));
+    .create({
+      to: `+1${number}`,
+      from: '+13475072312',
+      body: "There is an intruder!",
+      mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`
+    })
+    .then((message) => console.log('message ', message))
+    .catch((e) => console.log('error ', e));
 
   res.end('cool!');
 });
@@ -74,15 +82,30 @@ server.listen(PORT, () => {
   console.log(`server is up on port ${PORT}`)
 });
 
-
-String.prototype.hashCode = function() {
-  var hash = 0, i, chr;
-  if (this.length === 0) return hash;
+String.prototype.hashCode = function () {
+  var hash = 0,
+    i,
+    chr;
+  if (this.length === 0) 
+    return hash;
   for (i = 0; i < this.length; i++) {
-    chr   = this.charCodeAt(i);
-    hash  = ((hash << 5) - hash) + chr;
+    chr = this.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
     hash |= 0; // Convert to 32bit integer
   }
   return hash;
 };
 
+io.on('connection', (socket) => {
+
+  socket
+    .emit('start', function (err) {
+      if (err) {
+        alert(err);
+      } else {
+        console.log('no error!');
+      }
+    });
+
+    console.log('New User Connected!');
+});

@@ -29,8 +29,9 @@ myApp.controller('HomeCtrl', [
                         'type' : 'POST',
                         'contentType' : "application/json",
                         'data' : JSON.stringify({number: '516-404-8254', image: data_uri}),
-                          }
+                          });
                   }
+                }
                 });
                 })
           }, 3000);

@@ -1,3 +1,5 @@
+// listen (start app with node server.js) ======================================
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -10,10 +12,11 @@ var server = http.createServer(app);
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(express.static(publicPath));
 
 app.route('/').get((req, res) => {
-  res.render('site');
+  res.render('index');
 }).post((req, res) => {
   console.log(Object.keys(req), req);
   res.send(req);

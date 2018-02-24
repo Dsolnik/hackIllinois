@@ -37,7 +37,7 @@ app
   })
 
 app.post('/text', async (req, res) => {
-  const {image, number} = req.body;
+  const {image} = req.body;
 
   const hashedName = image.hashCode();
   const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");

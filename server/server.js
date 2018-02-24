@@ -46,7 +46,7 @@ app.post('/text', async (req, res) => {
     console.log(err);
   });
 
-  console.log(req.headers.host + `/images/${hashedName}`);
+  console.log(req.headers.host + `/images/${hashedName}.jpeg`);
 
   client
     .messages

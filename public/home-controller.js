@@ -139,6 +139,6 @@ const sendText = function(number, data) {
     'url': '/text',
     'type': 'POST',
     'contentType': "application/json",
-    'data': {number:number, image:data}
+    'data': {number:number, image: data}
   });
 }

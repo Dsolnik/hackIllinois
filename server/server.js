@@ -76,20 +76,20 @@ app.post('/text', async(req, res) => {
   const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
   await require("fs").writeFile(`./public/images/${hashedName}.jpeg`, base64Data, 'base64', function (err) {
-    // console.log(err);
+    console.log(err);
   });
   console.log(req.headers.host + `/images/${hashedName}.jpeg`);
 
-  // client
-  //   .messages
-  //   .create({
-  //     to: `+1${number}`,
-  //     from: '+13475072312',
-  //     body: "There is an intruder!",
-  //     mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`
-  //   })
-  //   .then((message) => console.log('message ', message))
-  //   .catch((e) => console.log('error ', e));
+  client
+    .messages
+    .create({
+      to: `+1${number}`,
+      from: '+13475072312',
+      body: "There is an intruder!",
+      mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`
+    })
+    .then((message) => console.log('message ', message))
+    .catch((e) => console.log('error ', e));
 
   res.end('cool!');
 });

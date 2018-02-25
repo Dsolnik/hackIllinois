@@ -8,7 +8,7 @@
 	display: none !important;
 	}</style>
 </head>
-<body ng-app="remote">
+<body ng-app="userApp">
 		<nav class="navbar navbar-inverse	 navbar-fixed-top">
 				<div class="container-fluid">
 				  <!-- Brand and toggle get grouped for better mobile display -->
@@ -26,8 +26,8 @@
 				  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 					  <li><a href="/" onClick="window.open('/');">Home<span class="sr-only">(current)</span></a></li>
-						<li><a href="#" onClick="window.open('/user');">Add User</a></li>
-						<li class="active"><a onClick="window.open('/remote');">Remote Assistant</a></li>
+                      <li class="active"><a href="/user" onClick="window.open('/user');">Add User</a></li>
+                      <li><a onClick="window.open('/remote');">Remote Assistant</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 					  <li><a href="#">Logout</a></li>
@@ -42,8 +42,8 @@
 	<script src="./bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 	<script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 	<script src="./bower_components/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.js"></script>
-	<script src='/socket.io/socket.io.js'></script>
-	<script src="./remote.js"></script>
-	<script src="./remote-controller.js"></script>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src="./user-app.js"></script>
+	<script src="./user.ejb.controller.js"></script>
 </body>
 </html>

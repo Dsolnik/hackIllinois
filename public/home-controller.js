@@ -70,9 +70,11 @@ myApp.controller('HomeCtrl', [
                   const gun = findTag(predictions, "Intruder carrying a gun");
                   const dangerous = findTag(predictions, "The man is dangerous");
                   if (gun && gun.Probability > .9) {
-                    sendTextPlain('516-404-8254',"The man has a gun!")
+                    sendTextPlain('5164048254',"The man has a gun!")
+                    console.log('sent gun');
                   } else if (no_gun && no_gun.Probability > .9){
-                    sendTextPlain('516-404-8254',"The intruder is not armed")
+                    sendTextPlain('5164048254',"The intruder is not armed")
+                    console.log('sent no gun');
                   }
                 });
 
@@ -86,7 +88,7 @@ myApp.controller('HomeCtrl', [
                       alert(`CALLING POLICE: ${res}, (${lat}, ${lng})`)
                     });
                     detectedAlready = true;
-                    sendText('516-404-8254', data_uri, 'There is an Intruder!');
+                    sendText('5164048254', data_uri, 'There is an Intruder!');
                   }
                 });
               })

@@ -38,6 +38,25 @@ app
     res.send(req);
   })
 
+  app
+.route('/login')
+.get((req, res) => {
+  res.render('login');
+})
+
+app
+.route('/remote')
+.get((req, res) => {
+  res.render('remote');
+})
+
+app
+.route('/redirect')
+.get((req, res) => {
+  res.render('index');
+})
+
+
 app.post('/text', async(req, res) => {
   const {image, number} = req.body;
 
@@ -109,3 +128,4 @@ io.on('connection', (socket) => {
 
     console.log('New User Connected!');
 });
+

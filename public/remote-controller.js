@@ -5,14 +5,15 @@ myAppRemote.controller('RemoteCtrl', [
       console.log("Remote Page");   
       $(document).ready(function() {
         const socket = io();
-        
-        $('#start').on('click', function(){
+        $scope.start = function(){
+          console.log('start');
           socket.emit('start');
-        });
-      
-        $('#stop').on('click', function(){
+        };
+
+        $scope.stop = function() {
+          console.log('stop');
           socket.emit('stop');
-        });
+        };
         
       });      
   }

@@ -29,7 +29,7 @@ myApp.controller('HomeCtrl', [
           interval = setInterval(function () {
             Webcam
               .snap(function (data_uri) {
-                applyPredictionAPI(data_uri, console.log);
+                azurePredictionAPI(data_uri, console.log);
                 awsAPI(data_uri, function (res) {
                     if (detectedAlready) 
                       return;

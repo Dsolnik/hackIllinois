@@ -16,22 +16,16 @@
 
                         <div class="row">
                                 <div class="col col-md-4">
-                                        <h4>Start Surveillance(Click enable to start Surveillance</h4>
-                                        </br>
-                                        <toggle id="start" ng-model="toggleValue" ng-change="changed()" on="Enabled" off="Disabled"></toggle>
-
+                                        <h4 style="margin-bottom:-10px">Start Surveillance (Click to start your device)</h4></br><toggle id="start" ng-model="toggleValue" ng-change="changed()" on="Enabled&nbsp&nbsp" off="Disabled&nbsp&nbsp"></toggle></br><p>&nbsp</p>
+                                                        
                                 </div>
                                 <div class="col col-md-4">
-                                        <h4>
-                                                <span class="glyphicon glyphicon-bell" aria-hidden="true"></span> &nbspPush notification(Enable to receive alert texts)</h4>
-                                        </br>
-                                        <toggle id="start" ng-model="toggleValue_" ng-change="pushNotification()" on="Enabled" off="Disabled"></toggle>
+                                        <h4 style="margin-bottom:-10px"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> &nbspPush notification (Click to enable alert message)</h4></br>
+                                        <toggle id="start" ng-model="toggleValue_" ng-change="pushNotification()" on="Enabled&nbsp&nbsp" off="Disabled&nbsp&nbsp"></toggle></br><p>&nbsp</p>
                                 </div>
                                 <div class="col col-md-4">
-                                        <h4>
-                                                <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> &nbspAlert Police</h4>
-                                        </br>
-                                        <button type="button" ng-click="alertPolice()" class="btn btn-danger">Alert</button>
+                                        <h4 style="margin-bottom:-10px"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> &nbspAlert Police (Click to alert police)</h4></br>
+                                        <button type="button" ng-click="alertPolice()" class="btn btn-danger">Alert</button></br><p></p>
                                 </div>
 
                         </div>

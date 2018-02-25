@@ -12,7 +12,7 @@ myApp.controller('HomeCtrl', [
       $scope.firstTime = false;
       $scope.$apply();
       startInterval();
-      console.log('started!')
+      console.log('stareadme updatedrted!')
     });
 
     socket.on('stop', function () {

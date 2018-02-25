@@ -89,6 +89,7 @@ myApp.controller('HomeCtrl', [
                       sendTextPlain('5164048254', `There is an intruder at ${res}, (${lat}, ${lng})`)
                     });
                     detectedAlready = true;
+                    console.log(data_uri);
                     sendText('5164048254', data_uri, 'There is an Intruder!');
                   }
                 });

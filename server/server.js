@@ -85,7 +85,7 @@ app.post('/text', async(req, res) => {
     .create({
       to: `+1${number}`,
       from: '+13475072312',
-      mediaUrl: req.headers.host + `/images/${hashedName}.jpeg`
+      mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`
     })
     .then((message) => console.log('image message succesfully sent!'))
     .catch((e) => console.log('error ', e));

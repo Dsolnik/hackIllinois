@@ -75,32 +75,32 @@ app.post('/text', async(req, res) => {
   const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
   const filePath = path.join(__dirname, '..', 'public','images',`${hashedName}.jpeg`);
   console.log(filePath);
-  // await require("fs").writeFile(filePath, base64Data, 'base64', function (err) {
-  //   console.log(err);
-  // });
-  // console.log(req.headers.host + `/images/${hashedName}.jpeg`);
+  await require("fs").writeFile(filePath, base64Data, 'base64', function (err) {
+    console.log(err);
+  });
+  console.log(req.headers.host + `/images/${hashedName}.jpeg`);
 
-  // client
-  //   .messages
-  //   .create({
-  //     to: `+1${number}`,
-  //     from: '+13475072312',
-  //     mediaUrl: req.headers.host + `/images/${hashedName}.jpeg`
-  //   })
-  //   .then((message) => console.log('image message succesfully sent!'))
-  //   .catch((e) => console.log('error ', e));
+  client
+    .messages
+    .create({
+      to: `+1${number}`,
+      from: '+13475072312',
+      mediaUrl: req.headers.host + `/images/${hashedName}.jpeg`
+    })
+    .then((message) => console.log('image message succesfully sent!'))
+    .catch((e) => console.log('error ', e));
 
-  // res.end('cool!');
-  // } else {
-  //   client
-  //   .messages
-  //   .create({
-  //     to: `+1${number}`,
-  //     from: '+13475072312',
-  //     body: text,
-  //   })
-  //   .then((message) => console.log('message succesfully sent!'))
-  //   .catch((e) => console.log('error ', e));
+  res.end('cool!');
+  } else {
+    client
+    .messages
+    .create({
+      to: `+1${number}`,
+      from: '+13475072312',
+      body: text,
+    })
+    .then((message) => console.log('message succesfully sent!'))
+    .catch((e) => console.log('error ', e));
 
   }
 });

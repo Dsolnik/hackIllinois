@@ -88,7 +88,7 @@ app.post('/text', async(req, res) => {
       body: "There is an intruder!",
       mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`
     })
-    .then((message) => console.log('message ', message))
+    .then((message) => console.log('message succesfully sent!'))
     .catch((e) => console.log('error ', e));
 
   res.end('cool!');

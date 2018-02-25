@@ -1,30 +1,13 @@
-// const proxyurl = "https://cors-anywhere.herokuapp.com/";
-// $(document)
-//   .ready(function () {
-//     console.log('good!');
-//     Webcam.attach('#my_camera');
-//     let interval
+var socket = io();
 
-//     startInterval = function startInterval() {
-//       if (!interval) {
-//         interval = setInterval(function () {
-//           Webcam
-//             .snap(function (data_uri) {
-//               console.log(data_uri);
-//             })
-//         }, 3000);
-//       }
-//     }
+socket.on('connect', function () {
+  console.log("chill");
+});
 
-//     stopInterval = function stopInterval() {
-//       if (interval) {
-//         clearInterval(interval);
-//         interval = null
-//       }
-//     }
+socket.on('start', function() {
+  $('#start').trigger('click');
+})
 
-//     let start = jQuery('#start');
-//     let stop = jQuery('#stop');
-//     start.click(startInterval)
-//     stop.click(stopInterval)
-//   });
+socket.on('stop', function() {
+  $('#stop').trigger('click');
+})

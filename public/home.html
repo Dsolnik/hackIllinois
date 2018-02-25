@@ -7,15 +7,15 @@
                 <div><flash-message duration="5000" show-close="true"></flash-message> </div>
                 <div class="fluid-container" style="padding-top:1px;">
                         <div class="row">
-                                        <div id="my_camera" style="width:320px; height:240px;"></div>
+                                        <div id="my_camera" style="margin:0 auto;width:320px; height:240px;"></div>
 
                                 <div class="col col-md-4">
-                                        <h4>Start Surveillance (Click to start your device)</h4></br><toggle id="start" ng-model="toggleValue" ng-change="changed()" on="Disabled" off="Enabled"></toggle>
+                                        <h4>Start Surveillance (Click to start your device)</h4></br><toggle id="start" ng-model="toggleValue" ng-change="changed()" on="Enabled" off="Disabled"></toggle>
                                                         
                                 </div>
                                 <div class="col col-md-4">
                                         <h4><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> &nbspPush notification (Click to enable alert message)</h4></br>
-                                        <toggle id="start" ng-model="toggleValue_" ng-change="pushNotification()" on="Disabled" off="Enabled"></toggle>
+                                        <toggle id="start" ng-model="toggleValue_" ng-change="pushNotification()" on="Enabled" off="Disabled"></toggle>
                                 </div>
                                 <div class="col col-md-4">
                                         <h4><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> &nbspAlert Police (Click to alert police)</h4></br>

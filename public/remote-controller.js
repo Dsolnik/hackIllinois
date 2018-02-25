@@ -1,21 +1,20 @@
-
 myAppRemote.controller('RemoteCtrl', [
-    '$scope',
-    '$resource',
-    function ($scope, $resource) {
-        console.log("Remote Page");   
-        
+  '$scope',
+  '$resource',
+  function ($scope, $resource) {
+      console.log("Remote Page");   
+      $(document).ready(function() {
+        const socket = io();
         $scope.start = function(){
-            var User = $resource('/api/start surveillance');
-			 	var user = User.get(function() {
-					
-				}); 
+          console.log('start');
+          socket.emit('start');
         };
 
-        $scope.stop = function(){
-            
+        $scope.stop = function() {
+          console.log('stop');
+          socket.emit('stop');
         };
-
-    }
+        
+      });      
+  }
 ]);
-  

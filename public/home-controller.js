@@ -65,25 +65,23 @@ myApp.controller('HomeCtrl', [
           interval = setInterval(function () {
             Webcam
               .snap(function (data_uri) {
-                azurePredictionAPI(data_uri, function (predictions) {
-                  const no_gun = findTag(predictions, "Intruder not carrying a gun");
-                  const gun = findTag(predictions, "Intruder carrying a gun");
-                  const dangerous = findTag(predictions, "The man is dangerous");
-                  if (gun && gun.Probability > .9) {
-                    sendTextPlain('5164048254',"The man has a gun!")
-                    console.log('sent gun');
-                  } else if (no_gun && no_gun.Probability > .9){
-                    sendTextPlain('5164048254',"The intruder is not armed")
-                    console.log('sent no gun');
-                  }
-                });
-
                 awsAPI(data_uri, function (res) {
                   if (detectedAlready) 
                     return;
                   if (res == 'An intruder is in the home') {
                     console.log('an intruder is in the home!');
-
+                    azurePredictionAPI(data_uri, function (predictions) {
+                      const no_gun = findTag(predictions, "Intruder not carrying a gun");
+                      const gun = findTag(predictions, "Intruder carrying a gun");
+                      const dangerous = findTag(predictions, "The man is dangerous");
+                      if (gun && gun.Probability > .95) {
+                        sendTextPlain('5164048254',"The man has a gun!")
+                        console.log('sent gun');
+                      } else if (no_gun && no_gun.Probability > .95){
+                        sendTextPlain('5164048254',"The intruder is not armed")
+                        console.log('sent no gun');
+                      }
+                    });    
                     getCurrentLocation(function (res, lat, lng) {
                       sendTextPlain('5164048254',`There is an intruder at ${res}, (${lat}, ${lng})`)
                     });

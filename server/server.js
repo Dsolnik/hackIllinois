@@ -87,7 +87,7 @@ app.post('/text', async(req, res) => {
       body: text,
       mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`
     })
-    .then((message) => console.log('message succesfully sent!'))
+    .then((message) => console.log('image message succesfully sent!'))
     .catch((e) => console.log('error ', e));
 
   res.end('cool!');

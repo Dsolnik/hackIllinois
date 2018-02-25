@@ -67,7 +67,6 @@ app.post('/getaddress', (req, res) => {
       res.send(response.data.results[0].formatted_address);
     })
     .catch((e) => console.log('errror', e));
-
 });
 
 app
@@ -82,7 +81,9 @@ app.post('/text', async(req, res) => {
   const hashedName = image.hashCode();
   const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
-  await require("fs").writeFile(`./public/images/${hashedName}.jpeg`, base64Data, 'base64', function (err) {
+  const filePath = `./public/images/${hashedName}.jpeg`;
+  console.log(__dirname);
+  await require("fs").writeFile(filePath, base64Data, 'base64', function (err) {
     console.log(err);
   });
   console.log(req.headers.host + `/images/${hashedName}.jpeg`);
@@ -92,10 +93,10 @@ app.post('/text', async(req, res) => {
     .create({
       to: `+1${number}`,
       from: '+13475072312',
-      body: text,
+      body: 'There is an intruder',
       mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`
     })
-    .then((message) => console.log('message succesfully sent!'))
+    .then((message) => console.log('image message succesfully sent!'))
     .catch((e) => console.log('error ', e));
 
   res.end('cool!');

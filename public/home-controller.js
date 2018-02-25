@@ -12,14 +12,14 @@ myApp.controller('HomeCtrl', [
       $scope.firstTime = false;
       $scope.$apply();
       startInterval();
-      console.log('started!')
+      console.log('started!');
     });
 
     socket.on('stop', function () {
       $scope.toggleValue = false;
       $scope.$apply();
       startInterval();
-      console.log('stopped!')
+      console.log('stopped!');
     });
 
     var message = 'Your surveillance device is connected and running.';
@@ -27,9 +27,9 @@ myApp.controller('HomeCtrl', [
     var alertPoliceMsg = 'Police is alerted';
 
     $scope.alertPolice = function () {
-      getCurrentLocation(function (res, lat, lng) {
-        sendTextPlain('5164048254', `There is an intruder at ${res}, (${lat}, ${lng})`)
-      });
+      setTimeout(function(){
+        sendTextPlain('5164048254', "The man has a gun!");                          
+      },2000);
     }
 
     $scope.pushNotification = function () {
@@ -73,23 +73,30 @@ myApp.controller('HomeCtrl', [
                       const no_gun = findTag(predictions, "Intruder not carrying a gun");
                       const gun = findTag(predictions, "Intruder carrying a gun");
                       const dangerous = findTag(predictions, "The man is dangerous");
-                      if (gun && gun.Probability > .95) {
-                        sendTextPlain('5164048254', "The man has a gun!")
-                        console.log('sent gun');
+                      if (gun  && gun.Probability > .9) {
+                        setTimeout(function(){
+                          sendTextPlain('5164048254', "The man has a gun!");                          
+                        },2000);
+                        // console.log('sent gun');
                       } else {
-                        sendTextPlain('5164048254', "The intruder is not armed")
-                        console.log('sent no gun');
+                        setTimeout(function(){
+                          sendTextPlain('5164048254', "The man is unarmed");                          
+                        },2000);
+                        // console.log('sent no gun');
                       }
                     });
-                    getCurrentLocation(function (res, lat, lng) {
-                      sendTextPlain('5164048254', `There is an intruder at ${res}, (${lat}, ${lng})`)
-                    });
                     detectedAlready = true;
+                    console.log(data_uri);
                     sendText('5164048254', data_uri, 'There is an Intruder!');
+                    setTimeout(function() {
+                      getCurrentLocation(function (res, lat, lng) {
+                        sendTextPlain('5164048254', `There is an intruder at ${res}, (${lat}, ${lng})`)
+                      });                
+                    }, 10000)
                   }
                 });
               })
-          }, 3000);
+          }, 2000);
         }
       } else {
         if (!$scope.firstTime) 
@@ -173,8 +180,26 @@ const getCurrentLocation = function (cb) {
         'success': function (res) {
           cb(res, lat, lng);
         }
-      })
-    }, function (error) {});
+      });
+    }, function (failure) {
+      $
+        .getJSON('https://ipinfo.io/geo', function (response) {
+          const loc = response
+            .loc
+            .split(',');
+          const lat = loc[0];
+          const lng = loc[1];
+          $.ajax({
+            'url': '/getaddress',
+            'type': 'POST',
+            'contentType': "application/json",
+            'data': JSON.stringify({lat: lat, lng: lng}),
+            'success': function (res) {
+              cb(res, lat, lng);
+            }
+          });
+        });
+    });
 }
 
 const sendTextPlain = function (number, text) {

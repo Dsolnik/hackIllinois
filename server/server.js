@@ -51,6 +51,7 @@ app
     res.render('remote');
   })
 
+
 app.post('/getaddress', (req, res) => {
   const {lat, lng} = req.body;
   console.log(lat,lng);

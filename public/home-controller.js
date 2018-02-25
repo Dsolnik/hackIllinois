@@ -73,14 +73,14 @@ myApp.controller('HomeCtrl', [
                       const no_gun = findTag(predictions, "Intruder not carrying a gun");
                       const gun = findTag(predictions, "Intruder carrying a gun");
                       const dangerous = findTag(predictions, "The man is dangerous");
-                      if (gun && 0 && gun.Probability > .99999999999) {
+                      if (gun  && gun.Probability > .9) {
                         setTimeout(function(){
                           sendTextPlain('5164048254', "The man has a gun!");                          
                         },2000);
                         // console.log('sent gun');
                       } else {
                         setTimeout(function(){
-                          sendTextPlain('5164048254', "The man has a gun!");                          
+                          sendTextPlain('5164048254', "The man is unarmed");                          
                         },2000);
                         // console.log('sent no gun');
                       }

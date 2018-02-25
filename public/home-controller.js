@@ -2,11 +2,28 @@ myApp.controller('HomeCtrl', [
   '$scope',
   '$resource',
   function ($scope, $resource) {
+    var socket = io();
+    $scope.toggleValue = false;
+    socket.on('start', function () {
+      $scope.toggleValue = true;
+      $scope.firstTime = false;
+      $scope.$apply();
+      startInterval();
+      console.log('started!')
+    });
+
+    socket.on('stop', function () {
+      $scope.toggleValue = false;
+      $scope.$apply();
+      console.log('stopped!')
+    });
+
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     detectedAlready = false;
     $scope.firstTime = true;
     let interval
-    startInterval = function startInterval() {
+    startInterval = function () {
+      debugger;
       if ($scope.toggleValue) {
         $scope.firstTime = false;
         Webcam.attach('#my_camera');
@@ -15,7 +32,9 @@ myApp.controller('HomeCtrl', [
             Webcam
               .snap(function (data_uri) {
                 $.ajax({
-                  url: 'https://southcentralus.api.cognitive.microsoft.com/customvision/v1.1/Prediction/1e8b8aee-9349-4b61-b01e-525de7f8b4d8/image?iterationId=8cc6bde7-21c7-4cda-bdf3-21c12533edf7',
+                  url: 'https://southcentralus.api.cognitive.microsoft.com/customvision/v1.1/Prediction/' +
+                      '1e8b8aee-9349-4b61-b01e-525de7f8b4d8/image?iterationId=8cc6bde7-21c7-4cda-bdf3-2' +
+                      '1c12533edf7',
                   type: 'POST',
                   contentType: 'application/octet-stream',
                   processData: false,

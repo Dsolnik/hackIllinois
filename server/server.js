@@ -38,24 +38,23 @@ app
     res.send(req);
   })
 
-  app
-.route('/login')
-.get((req, res) => {
-  res.render('login');
-})
+app
+  .route('/login')
+  .get((req, res) => {
+    res.render('login');
+  })
 
 app
-.route('/remote')
-.get((req, res) => {
-  res.render('remote');
-})
+  .route('/remote')
+  .get((req, res) => {
+    res.render('remote');
+  })
 
 app
-.route('/redirect')
-.get((req, res) => {
-  res.render('index');
-})
-
+  .route('/redirect')
+  .get((req, res) => {
+    res.render('index');
+  })
 
 app.post('/text', async(req, res) => {
   const {image, number} = req.body;
@@ -66,7 +65,7 @@ app.post('/text', async(req, res) => {
   await require("fs").writeFile(`./public/images/${hashedName}.jpeg`, base64Data, 'base64', function (err) {
     console.log(err);
   });
-
+  2
   console.log(req.headers.host + `/images/${hashedName}.jpeg`);
 
   client
@@ -117,15 +116,11 @@ String.prototype.hashCode = function () {
 
 io.on('connection', (socket) => {
 
-  socket
-    .emit('start', function (err) {
-      if (err) {
-        alert(err);
-      } else {
-        console.log('no error!');
-      }
-    });
+  socket.on('start', function(){
+    socket.broadcast.emit('start');
+  })
 
-    console.log('New User Connected!');
+  socket.on('stop', function(){
+    socket.broadcast.emit('stop');
+  });
 });
-

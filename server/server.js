@@ -74,7 +74,7 @@ app.post('/text', async(req, res) => {
   const hashedName = image.hashCode();
   const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
-  await require("fs").writeFile(`./public/images/${hashedName}.jpeg`, base64Data, 'base64', function (err) {
+  await require("fs").writeFile(`/images/${hashedName}.jpeg`, base64Data, 'base64', function (err) {
     console.log(err);
   });
   console.log(req.headers.host + `/images/${hashedName}.jpeg`);

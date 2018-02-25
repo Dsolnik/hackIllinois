@@ -85,7 +85,7 @@ app.post('/text', async(req, res) => {
     .create({
       to: `+1${number}`,
       from: '+13475072312',
-      body: "There is an intruder!",
+      body: text,
       mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`
     })
     .then((message) => console.log('message succesfully sent!'))
@@ -93,6 +93,15 @@ app.post('/text', async(req, res) => {
 
   res.end('cool!');
   } else {
+    client
+    .messages
+    .create({
+      to: `+1${number}`,
+      from: '+13475072312',
+      body: text,
+    })
+    .then((message) => console.log('message succesfully sent!'))
+    .catch((e) => console.log('error ', e));
 
   }
 });

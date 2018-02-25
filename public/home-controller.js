@@ -2,7 +2,31 @@
 myApp.controller('HomeCtrl', [
   '$scope',
   '$resource',
-  function ($scope, $resource) {
+  'Flash',
+  function ($scope, $resource, Flash) {
+
+    var message = 'Your surveillance device is connected and running.';
+    var notificationMsg = 'Your phone is ready to recieve alert message.';
+    var alertPoliceMsg = 'Police is alerted';
+
+    $scope.alertPolice = function (){
+      Flash.create('success', alertPoliceMsg, 0, {class: 'custom-class', id: 'custom-id'}, true);
+    }
+
+
+    $scope.pushNotification = function(){
+        if($scope.toggleValue_){
+          Flash.create('success', notificationMsg, 0, {class: 'custom-class', id: 'custom-id'}, true);
+        }
+
+    }
+
+    $scope.changed = function(){
+      if($scope.toggleValue){
+        Flash.create('success', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
+      }
+    }
+
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
     $scope.firstTime = true;

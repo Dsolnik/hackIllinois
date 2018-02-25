@@ -3,6 +3,8 @@
 <head>
 	<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css"/>
 	<link rel="stylesheet" href="./bower_components/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.css"/>
+	<link rel="stylesheet" href="./bower_components/angular-flash-alert/dist/angular-flash.css"/>
+	<link rel="stylesheet" href="./bower_components/angular-loading-bar/build/loading-bar.css"/>
 	<style type="text/css">
 	[ng\:cloak], [ng-cloak], .ng-cloak {
 	display: none !important;
@@ -21,7 +23,6 @@
 					</button>
 					<a class="navbar-brand" href="#">OldWatch</a>
 				  </div>
-			  
 				  <!-- Collect the nav links, forms, and other content for toggling -->
 				  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
@@ -34,12 +35,15 @@
 				  </div><!-- /.navbar-collapse -->
 				</div><!-- /.container-fluid -->
 			</nav>
+			
 	<ui-view></ui-view>
 	<script src="./bower_components/jquery/dist/jquery.js"></script>
 	<script src='/socket.io/socket.io.js'></script>
 	<script src="./assets/webcam.js"></script>
 	<script src="./js/site.js"></script>
 	<script src="./bower_components/angular/angular.js"></script>
+	<script src="./bower_components/angular-loading-bar/build/loading-bar.js"></script>
+	<script src="./bower_components/angular-flash-alert/dist/angular-flash.js"></script>
 	<script src="./bower_components/angular-resource/angular-resource.js"></script>
 	<script src="./bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 	<script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>

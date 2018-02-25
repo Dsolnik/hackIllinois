@@ -18,12 +18,10 @@ myApp.controller('HomeCtrl', [
       console.log('stopped!')
     });
 
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
     detectedAlready = false;
     $scope.firstTime = true;
     let interval
     startInterval = function () {
-      debugger;
       if ($scope.toggleValue) {
         $scope.firstTime = false;
         Webcam.attach('#my_camera');
@@ -31,40 +29,21 @@ myApp.controller('HomeCtrl', [
           interval = setInterval(function () {
             Webcam
               .snap(function (data_uri) {
-                $.ajax({
-                  url: 'https://southcentralus.api.cognitive.microsoft.com/customvision/v1.1/Prediction/' +
-                      '1e8b8aee-9349-4b61-b01e-525de7f8b4d8/image?iterationId=8cc6bde7-21c7-4cda-bdf3-2' +
-                      '1c12533edf7',
-                  type: 'POST',
-                  contentType: 'application/octet-stream',
-                  processData: false,
-                  headers: {
-                    'Prediction-Key': 'faca39e5852f43a296bbb20466c0bbf4'
-                  },
-                  'data': makeblob(data_uri),
-                  'success': function (res) {
-                    console.log(res.Predictions);
-                  }
-                })
-                $.ajax({
-                  'url': proxyurl + 'https://ekpqr3k4xi.execute-api.us-east-1.amazonaws.com/prod/myresource',
-                  'type': 'PUT',
-                  'contentType': "application/json",
-                  'data': JSON.stringify({data: data_uri}),
-                  'success': function (res) {
+                applyPredictionAPI(data_uri, console.log);
+                awsAPI(data_uri, function (res) {
                     if (detectedAlready) 
                       return;
                     if (res == 'An intruder is in the home') {
-                      $.ajax({
-                        'url': '/text',
-                        'type': 'POST',
-                        'contentType': "application/json",
-                        'data': JSON.stringify({number: '516-404-8254', image: data_uri})
-                      });
+                      console.log('an intruder is in the home!');
+
+                      getCurrentLocation(function () {
+                        console.log(`CALLING POLICE: ${res}, (${lat}, ${lng})`)}
+                      );
                       detectedAlready = true;
+                      sendText('516-404-8254', data_uri);
                     }
                   }
-                });
+                );
               })
           }, 3000);
         }
@@ -104,4 +83,62 @@ const makeblob = function (dataURL) {
   }
 
   return new Blob([uInt8Array], {type: contentType});
+}
+
+const azurePredictionAPI = function (data_uri, cb) {
+  $.ajax({
+    url: 'https://southcentralus.api.cognitive.microsoft.com/customvision/v1.1/Prediction/' +
+        '1e8b8aee-9349-4b61-b01e-525de7f8b4d8/image?iterationId=8cc6bde7-21c7-4cda-bdf3-2' +
+        '1c12533edf7',
+    type: 'POST',
+    contentType: 'application/octet-stream',
+    processData: false,
+    headers: {
+      'Prediction-Key': 'faca39e5852f43a296bbb20466c0bbf4'
+    },
+    'data': makeblob(data_uri),
+    'success': function (res) {
+      cb(res.Predictions);
+    }
+  })
+}
+
+const awsAPI = function (data_uri, cb) {
+  const proxyurl = "https://cors-anywhere.herokuapp.com/";
+  $.ajax({
+    'url': proxyurl + 'https://ekpqr3k4xi.execute-api.us-east-1.amazonaws.com/prod/myresource',
+    'type': 'PUT',
+    'contentType': "application/json",
+    'data': JSON.stringify({data: data_uri}),
+    'success' : cb
+  });
+
+}
+
+const getCurrentLocation = function(cb) {
+  navigator
+  .geolocation
+  .getCurrentPosition(function (position) {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      $.ajax({
+        'url' : '/getaddress',
+        'type' : 'POST',
+        'contentType': "application/json",
+        'data' : JSON.stringify({lat:lat,lng:lng}),
+        'success' : function (res) {
+          cb({res:res,lat:lat,lng:lng});
+        }
+      })
+    }, function (error) {
+  });
+}
+
+const sendText = function(number, data) {
+  $.ajax({
+    'url': '/text',
+    'type': 'POST',
+    'contentType': "application/json",
+    'data': {number:number, image:data_uri}
+  });
 }

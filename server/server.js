@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
+const axios = require('axios');
 
 const publicPath = path.join(__dirname, '../public');
 const PORT = process.env.PORT || 3000;
@@ -50,6 +51,18 @@ app
     res.render('remote');
   })
 
+app.post('/getaddress', (req, res) => {
+  const {lat, lng} = req.body;
+  console.log(lat,lng);
+  axios
+    .get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDaZcnk0G6r4q_KRs3AI9V_-_YCn9Np9l0`)
+    .then((response) => {
+      res.send(response.data.results[0].formatted_address);
+    })
+    .catch((e) => console.log('errror', e));
+
+});
+
 app
   .route('/redirect')
   .get((req, res) => {
@@ -63,21 +76,20 @@ app.post('/text', async(req, res) => {
   const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
   await require("fs").writeFile(`./public/images/${hashedName}.jpeg`, base64Data, 'base64', function (err) {
-    console.log(err);
+    // console.log(err);
   });
-  2
   console.log(req.headers.host + `/images/${hashedName}.jpeg`);
 
-  client
-    .messages
-    .create({
-      to: `+1${number}`,
-      from: '+13475072312',
-      body: "There is an intruder!",
-      mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`
-    })
-    .then((message) => console.log('message ', message))
-    .catch((e) => console.log('error ', e));
+  // client
+  //   .messages
+  //   .create({
+  //     to: `+1${number}`,
+  //     from: '+13475072312',
+  //     body: "There is an intruder!",
+  //     mediaUrl: 'https://' + req.headers.host + `/images/${hashedName}.jpeg`
+  //   })
+  //   .then((message) => console.log('message ', message))
+  //   .catch((e) => console.log('error ', e));
 
   res.end('cool!');
 });
@@ -116,11 +128,16 @@ String.prototype.hashCode = function () {
 
 io.on('connection', (socket) => {
 
-  socket.on('start', function(){
-    socket.broadcast.emit('start');
-  })
+  socket
+    .on('start', function () {
+      socket
+        .broadcast
+        .emit('start');
+    })
 
-  socket.on('stop', function(){
-    socket.broadcast.emit('stop');
+  socket.on('stop', function () {
+    socket
+      .broadcast
+      .emit('stop');
   });
 });

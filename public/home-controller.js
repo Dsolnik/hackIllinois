@@ -27,10 +27,9 @@ myApp.controller('HomeCtrl', [
     var alertPoliceMsg = 'Police is alerted';
 
     $scope.alertPolice = function () {
-      Flash.create('success', alertPoliceMsg, 0, {
-        class: 'custom-class',
-        id: 'custom-id'
-      }, true);
+      getCurrentLocation(function (res, lat, lng) {
+        sendTextPlain('5164048254', `There is an intruder at ${res}, (${lat}, ${lng})`)
+      });
     }
 
     $scope.pushNotification = function () {
@@ -75,15 +74,15 @@ myApp.controller('HomeCtrl', [
                       const gun = findTag(predictions, "Intruder carrying a gun");
                       const dangerous = findTag(predictions, "The man is dangerous");
                       if (gun && gun.Probability > .95) {
-                        sendTextPlain('5164048254',"The man has a gun!")
+                        sendTextPlain('5164048254', "The man has a gun!")
                         console.log('sent gun');
-                      } else if (no_gun && no_gun.Probability > .95){
-                        sendTextPlain('5164048254',"The intruder is not armed")
+                      } else if (no_gun && no_gun.Probability > .95) {
+                        sendTextPlain('5164048254', "The intruder is not armed")
                         console.log('sent no gun');
                       }
-                    });    
+                    });
                     getCurrentLocation(function (res, lat, lng) {
-                      sendTextPlain('5164048254',`There is an intruder at ${res}, (${lat}, ${lng})`)
+                      sendTextPlain('5164048254', `There is an intruder at ${res}, (${lat}, ${lng})`)
                     });
                     detectedAlready = true;
                     sendText('5164048254', data_uri, 'There is an Intruder!');

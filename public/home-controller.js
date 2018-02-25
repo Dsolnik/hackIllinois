@@ -85,7 +85,7 @@ myApp.controller('HomeCtrl', [
                     console.log('an intruder is in the home!');
 
                     getCurrentLocation(function (res, lat, lng) {
-                      sendTextPlain('7734915182',`There is an intruder at ${res}, (${lat}, ${lng})`)
+                      sendTextPlain('5164048254',`There is an intruder at ${res}, (${lat}, ${lng})`)
                     });
                     detectedAlready = true;
                     sendText('5164048254', data_uri, 'There is an Intruder!');

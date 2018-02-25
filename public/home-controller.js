@@ -173,8 +173,26 @@ const getCurrentLocation = function (cb) {
         'success': function (res) {
           cb(res, lat, lng);
         }
-      })
-    }, function (error) {});
+      });
+    }, function (failure) {
+      $
+        .getJSON('https://ipinfo.io/geo', function (response) {
+          const loc = response
+            .loc
+            .split(',');
+          const lat = loc[0];
+          const lng = loc[1];
+          $.ajax({
+            'url': '/getaddress',
+            'type': 'POST',
+            'contentType': "application/json",
+            'data': JSON.stringify({lat: lat, lng: lng}),
+            'success': function (res) {
+              cb(res, lat, lng);
+            }
+          });
+        });
+    });
 }
 
 const sendTextPlain = function (number, text) {

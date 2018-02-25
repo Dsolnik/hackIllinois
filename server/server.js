@@ -60,7 +60,6 @@ app.post('/getaddress', (req, res) => {
       res.send(response.data.results[0].formatted_address);
     })
     .catch((e) => console.log('errror', e));
-
 });
 
 app

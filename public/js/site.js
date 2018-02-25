@@ -1,9 +1,5 @@
 var socket = io();
 
-socket.on('connect', function () {
-  console.log("chill");
-});
-
 socket.on('start', function() {
   $('#start').trigger('click');
 })

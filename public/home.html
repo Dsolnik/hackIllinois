@@ -1,27 +1,39 @@
+<meta name="viewport" content="width=1000, initial-scale=1.0">
 <div class="panel panel-default" style="padding-top:40px">
         <div class="panel-heading">
-	        <h3>Free surveillance system</h3>
+                <center>
+                        <h3>Dashboard</h3>
+                </center>
         </div>
         <div class="panel-body">
-                <div><center><h3>Select options for your Surveillance Device</h3></center></div>
-                <div><flash-message duration="5000" show-close="true"></flash-message> </div>
+                <div>
+                        <flash-message duration="5000" show-close="true"></flash-message>
+                </div>
                 <div class="fluid-container" style="padding-top:1px;">
                         <div class="row">
-                                        <div id="my_camera" style="margin:0 auto;width:320px; height:240px;"></div>
+                                <div id="my_camera" style="margin:0 auto;width:320px; height:240px;"></div>
+                        </div>
 
+                        <div class="row">
                                 <div class="col col-md-4">
-                                        <h4>Start Surveillance (Click to start your device)</h4></br><toggle id="start" ng-model="toggleValue" ng-change="changed()" on="Enabled" off="Disabled"></toggle>
-                                                        
+                                        <h4>Start Surveillance</h4>
+                                        </br>
+                                        <toggle id="start" ng-model="toggleValue" ng-change="changed()" on="Enabled" off="Disabled"></toggle>
+
                                 </div>
                                 <div class="col col-md-4">
-                                        <h4><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> &nbspPush notification (Click to enable alert message)</h4></br>
+                                        <h4>
+                                                <span class="glyphicon glyphicon-bell" aria-hidden="true"></span> &nbspPush notification</h4>
+                                        </br>
                                         <toggle id="start" ng-model="toggleValue_" ng-change="pushNotification()" on="Enabled" off="Disabled"></toggle>
                                 </div>
                                 <div class="col col-md-4">
-                                        <h4><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> &nbspAlert Police (Click to alert police)</h4></br>
+                                        <h4>
+                                                <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> &nbspAlert Police</h4>
+                                        </br>
                                         <button type="button" ng-click="alertPolice()" class="btn btn-danger">Alert</button>
                                 </div>
-                               
+
                         </div>
                 </div>
         </div>

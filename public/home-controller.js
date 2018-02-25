@@ -85,9 +85,6 @@ myApp.controller('HomeCtrl', [
                         // console.log('sent no gun');
                       }
                     });
-                    // getCurrentLocation(function (res, lat, lng) {
-                    //   sendTextPlain('5164048254', `There is an intruder at ${res}, (${lat}, ${lng})`)
-                    // });
                     detectedAlready = true;
                     console.log(data_uri);
                     sendText('5164048254', data_uri, 'There is an Intruder!');

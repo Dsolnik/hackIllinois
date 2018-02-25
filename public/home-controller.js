@@ -12,14 +12,14 @@ myApp.controller('HomeCtrl', [
       $scope.firstTime = false;
       $scope.$apply();
       startInterval();
-      console.log('stareadme updatedrted!')
+      console.log('started!');
     });
 
     socket.on('stop', function () {
       $scope.toggleValue = false;
       $scope.$apply();
       startInterval();
-      console.log('stopped!')
+      console.log('stopped!');
     });
 
     var message = 'Your surveillance device is connected and running.';
@@ -27,9 +27,9 @@ myApp.controller('HomeCtrl', [
     var alertPoliceMsg = 'Police is alerted';
 
     $scope.alertPolice = function () {
-      getCurrentLocation(function (res, lat, lng) {
-        sendTextPlain('5164048254', `There is an intruder at ${res}, (${lat}, ${lng})`)
-      });
+      setTimeout(function(){
+        sendTextPlain('5164048254', "The man has a gun!");                          
+      },2000);
     }
 
     $scope.pushNotification = function () {
@@ -88,6 +88,11 @@ myApp.controller('HomeCtrl', [
                     detectedAlready = true;
                     console.log(data_uri);
                     sendText('5164048254', data_uri, 'There is an Intruder!');
+                    setTimeout(function() {
+                      getCurrentLocation(function (res, lat, lng) {
+                        sendTextPlain('5164048254', `There is an intruder at ${res}, (${lat}, ${lng})`)
+                      });                
+                    }, 10000)
                   }
                 });
               })

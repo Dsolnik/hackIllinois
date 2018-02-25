@@ -36,7 +36,7 @@ myApp.controller('HomeCtrl', [
                     if (res == 'An intruder is in the home') {
                       console.log('an intruder is in the home!');
 
-                      getCurrentLocation(function () {
+                      getCurrentLocation(function (res,lat,lng) {
                         console.log(`CALLING POLICE: ${res}, (${lat}, ${lng})`)}
                       );
                       detectedAlready = true;
@@ -127,7 +127,7 @@ const getCurrentLocation = function(cb) {
         'contentType': "application/json",
         'data' : JSON.stringify({lat:lat,lng:lng}),
         'success' : function (res) {
-          cb({res:res,lat:lat,lng:lng});
+          cb(res,lat,lng);
         }
       })
     }, function (error) {

@@ -3,6 +3,8 @@ myApp.controller('HomeCtrl', [
   '$resource',
   'Flash',
   function ($scope, $resource, Flash) {
+    getNavigationAuth();
+
     var socket = io();
     $scope.toggleValue = false;
     socket.on('start', function () {
@@ -16,6 +18,7 @@ myApp.controller('HomeCtrl', [
     socket.on('stop', function () {
       $scope.toggleValue = false;
       $scope.$apply();
+      startInterval();
       console.log('stopped!')
     });
 
@@ -23,21 +26,29 @@ myApp.controller('HomeCtrl', [
     var notificationMsg = 'Your phone is ready to recieve alert message.';
     var alertPoliceMsg = 'Police is alerted';
 
-    $scope.alertPolice = function (){
-      Flash.create('success', alertPoliceMsg, 0, {class: 'custom-class', id: 'custom-id'}, true);
+    $scope.alertPolice = function () {
+      Flash.create('success', alertPoliceMsg, 0, {
+        class: 'custom-class',
+        id: 'custom-id'
+      }, true);
     }
 
-
-    $scope.pushNotification = function(){
-        if($scope.toggleValue_){
-          Flash.create('success', notificationMsg, 0, {class: 'custom-class', id: 'custom-id'}, true);
-        }
+    $scope.pushNotification = function () {
+      if ($scope.toggleValue_) {
+        Flash.create('success', notificationMsg, 0, {
+          class: 'custom-class',
+          id: 'custom-id'
+        }, true);
+      }
 
     }
 
-    $scope.changed = function(){
-      if($scope.toggleValue){
-        Flash.create('success', message, 0, {class: 'custom-class', id: 'custom-id'}, true);
+    $scope.changed = function () {
+      if ($scope.toggleValue) {
+        Flash.create('success', message, 0, {
+          class: 'custom-class',
+          id: 'custom-id'
+        }, true);
       }
     }
 
@@ -54,21 +65,30 @@ myApp.controller('HomeCtrl', [
           interval = setInterval(function () {
             Webcam
               .snap(function (data_uri) {
-                azurePredictionAPI(data_uri, console.log);
-                awsAPI(data_uri, function (res) {
-                    if (detectedAlready) 
-                      return;
-                    if (res == 'An intruder is in the home') {
-                      console.log('an intruder is in the home!');
-
-                      getCurrentLocation(function (res,lat,lng) {
-                        console.log(`CALLING POLICE: ${res}, (${lat}, ${lng})`)}
-                      );
-                      detectedAlready = true;
-                      sendText('516-404-8254', data_uri);
-                    }
+                azurePredictionAPI(data_uri, function (predictions) {
+                  const no_gun = findTag(predictions, "Intruder not carrying a gun");
+                  const gun = findTag(predictions, "Intruder carrying a gun");
+                  const dangerous = findTag(predictions, "The man is dangerous");
+                  if (gun && gun.Probability > .9) {
+                    sendTextPlain('516-404-8254',"The man has a gun!")
+                  } else if (no_gun && no_gun.Probability > .9){
+                    sendTextPlain('516-404-8254',"The intruder is not armed")
                   }
-                );
+                });
+
+                awsAPI(data_uri, function (res) {
+                  if (detectedAlready) 
+                    return;
+                  if (res == 'An intruder is in the home') {
+                    console.log('an intruder is in the home!');
+
+                    getCurrentLocation(function (res, lat, lng) {
+                      alert(`CALLING POLICE: ${res}, (${lat}, ${lng})`)
+                    });
+                    detectedAlready = true;
+                    sendText('516-404-8254', data_uri, 'There is an Intruder!');
+                  }
+                });
               })
           }, 3000);
         }
@@ -135,35 +155,56 @@ const awsAPI = function (data_uri, cb) {
     'type': 'PUT',
     'contentType': "application/json",
     'data': JSON.stringify({data: data_uri}),
-    'success' : cb
+    'success': cb
   });
 
 }
 
-const getCurrentLocation = function(cb) {
+const getCurrentLocation = function (cb) {
   navigator
-  .geolocation
-  .getCurrentPosition(function (position) {
+    .geolocation
+    .getCurrentPosition(function (position) {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
       $.ajax({
-        'url' : '/getaddress',
-        'type' : 'POST',
+        'url': '/getaddress',
+        'type': 'POST',
         'contentType': "application/json",
-        'data' : JSON.stringify({lat:lat,lng:lng}),
-        'success' : function (res) {
-          cb(res,lat,lng);
+        'data': JSON.stringify({lat: lat, lng: lng}),
+        'success': function (res) {
+          cb(res, lat, lng);
         }
       })
-    }, function (error) {
-  });
+    }, function (error) {});
 }
 
-const sendText = function(number, data) {
+const sendTextPlain = function (number, text) {
   $.ajax({
     'url': '/text',
     'type': 'POST',
     'contentType': "application/json",
-    'data': JSON.stringify({number:number, image: data})
+    'data': JSON.stringify({number: number, text: text})
   });
 }
+
+const sendText = function (number, data, text) {
+  $.ajax({
+    'url': '/text',
+    'type': 'POST',
+    'contentType': "application/json",
+    'data': JSON.stringify({number: number, image: data, text: text})
+  });
+}
+
+function getNavigationAuth() {
+  navigator
+    .geolocation
+    .getCurrentPosition(function () {}, function () {});
+}
+
+function findTag(arr, tag) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].Tag == tag) 
+      return arr[i];
+    }
+  }

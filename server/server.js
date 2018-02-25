@@ -70,8 +70,8 @@ app
   })
 
 app.post('/text', async(req, res) => {
-  const {image, number} = req.body;
-
+  const {image, number, text} = req.body;
+  if (image) {
   const hashedName = image.hashCode();
   const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
@@ -92,6 +92,9 @@ app.post('/text', async(req, res) => {
     .catch((e) => console.log('error ', e));
 
   res.end('cool!');
+  } else {
+
+  }
 });
 
 app
